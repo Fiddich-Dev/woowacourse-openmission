@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public enum CardDiscountPolicyByDollar implements DiscountPolicy {
+public enum CardDiscountPolicyByDollar {
     OVER_50_MINUS_8(
             new BigDecimal(50),
             new BigDecimal(8)
@@ -56,13 +56,13 @@ public enum CardDiscountPolicyByDollar implements DiscountPolicy {
                 .toList();
     }
 
-    @Override
-    public BigDecimal apply(BigDecimal price) {
-        return getValues(BY_DISCOUNT_AMOUNT_DESC)
-                .stream()
-                .filter(policy -> price.compareTo(policy.threshold) >= 0)
-                .findFirst()
-                .map(policy -> price.subtract(policy.discountAmount))
-                .orElse(price);
-    }
+//    @Override
+//    public BigDecimal apply(BigDecimal price) {
+//        return getValues(BY_DISCOUNT_AMOUNT_DESC)
+//                .stream()
+//                .filter(policy -> price.compareTo(policy.threshold) >= 0)
+//                .findFirst()
+//                .map(policy -> price.subtract(policy.discountAmount))
+//                .orElse(price);
+//    }
 }

@@ -2,6 +2,7 @@ package com.fiddich.model;
 
 import java.math.BigDecimal;
 
-public interface DiscountPolicy {
+@FunctionalInterface
+public interface Discount {
     BigDecimal apply(BigDecimal price);
 }
