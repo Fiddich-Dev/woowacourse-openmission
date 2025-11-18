@@ -1,6 +1,8 @@
 package com.fiddich.controller;
 
+import com.fiddich.model.DiscountInfoResponse;
 import com.fiddich.model.Goods;
+import com.fiddich.service.DiscountPolicy;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
 import com.fiddich.view.OutputView;
@@ -20,9 +22,16 @@ public class LowestPriceController {
     }
 
     public void run() {
+        DiscountPolicy discountPolicy = new DiscountPolicy();
+
+        List<DiscountInfoResponse> couponDiscountInfoResponseList = discountPolicy.byCoupon().getContent();
+        outputView.printCouponDiscountInfo(couponDiscountInfoResponseList);
+        List<DiscountInfoResponse> cardDiscountInfoResponseList = discountPolicy.byCard().getContent();
+        outputView.printCouponDiscountInfo(cardDiscountInfoResponseList);
+
         List<Goods> goodsList = inputGoodsList();
 
-
+        
 
     }
 
