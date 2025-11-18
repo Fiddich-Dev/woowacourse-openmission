@@ -2,6 +2,9 @@ package com.fiddich.view;
 
 import com.fiddich.Console;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InputView {
 
     public String requestAmount() {
@@ -18,10 +21,13 @@ public class InputView {
         return input;
     }
 
-    public String requestGoods() {
+    public List<String> requestGoods(long count) {
         System.out.println("구매하고 싶은 상품의 이름과 가격(달러)을 소수점 둘째자리까지 입력해주세요.");
-        String input = Console.readLine();
+        List<String> result = new ArrayList<>();
+        for(long i = 0; i < count; i++) {
+            result.add(Console.readLine());
+        }
         System.out.println();
-        return input;
+        return result;
     }
 }

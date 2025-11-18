@@ -8,6 +8,10 @@ public class Console {
     private Console() {
     }
 
+    public static String read() {
+        return getInstance().next();
+    }
+
     public static String readLine() {
         return getInstance().nextLine();
     }

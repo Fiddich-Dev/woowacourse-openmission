@@ -28,8 +28,8 @@ func main() {
 func GetExchangeRate(c *gin.Context) {
 	client := &http.Client{Timeout: 3 * time.Second}
 
-	openApiKey := "fmg4TI2nZeveC6j7e5bh35v6EtpSCveZ"
 	baseURL := "https://oapi.koreaexim.go.kr/site/program/financial/exchangeJSON"
+	openApiKey := "fmg4TI2nZeveC6j7e5bh35v6EtpSCveZ"
 
 	req, err := http.NewRequest("GET", baseURL, nil)
 	if err != nil {
