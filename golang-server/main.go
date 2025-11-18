@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"golang-server/model"
 	"io"
 	"net/http"
 	"time"
@@ -20,7 +21,10 @@ func main() {
 
 	r.POST("/partition", PartitionService)
 
-	r.GET("/exchangeRate", GetExchangeRate)
+	r.GET("/exchange-rate", GetExchangeRate)
+
+	r.GET("/coupon-discount-policy", model.CouponDiscountPolicyService)
+	r.GET("/card-discount-policy", model.CardDiscountPolicyService)
 
 	r.Run()
 }
