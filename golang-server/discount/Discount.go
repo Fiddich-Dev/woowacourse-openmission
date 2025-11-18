@@ -1,9 +1,12 @@
-package main
+package discount
 
-import "math/big"
+import (
+	"golang-server/discountpolicy"
+	"math/big"
+)
 
 func applyCardDiscount(price *big.Float) *big.Float {
-	policies := GetCardPoliciesByDiscountDesc()
+	policies := discountpolicy.GetCardPoliciesByDiscountDesc()
 
 	for _, p := range policies {
 		if price.Cmp(p.Threshold) >= 0 {
@@ -16,7 +19,7 @@ func applyCardDiscount(price *big.Float) *big.Float {
 }
 
 func applyCouponDiscount(price *big.Float) *big.Float {
-	policies := GetCouponPoliciesByDiscountDesc()
+	policies := discountpolicy.GetCouponPoliciesByDiscountDesc()
 
 	for _, p := range policies {
 		if price.Cmp(p.Threshold) >= 0 {

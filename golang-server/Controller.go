@@ -1,6 +1,8 @@
 package main
 
 import (
+	"golang-server/discount"
+	"golang-server/model"
 	"math/big"
 	"net/http"
 	"sort"
@@ -9,13 +11,13 @@ import (
 )
 
 type PartitionRequest struct {
-	Goods []Goods `json:"goods"`
+	Goods []model.Goods `json:"goods"`
 }
 
 type PartitionResponse struct {
-	Goods       []Goods `json:"goods"`
-	BeforePrice string  `json:"before_price"`
-	AfterPrice  string  `json:"after_price"`
+	Goods       []model.Goods `json:"goods"`
+	BeforePrice string        `json:"before_price"`
+	AfterPrice  string        `json:"after_price"`
 }
 
 func PartitionService(c *gin.Context) {
@@ -35,7 +37,7 @@ func PartitionService(c *gin.Context) {
 	})
 }
 
-func calcBeforePrice(goods []Goods) *big.Float {
+func calcBeforePrice(goods []model.Goods) *big.Float {
 	sum := big.NewFloat(0)
 
 	for _, g := range goods {
@@ -44,12 +46,12 @@ func calcBeforePrice(goods []Goods) *big.Float {
 	return sum
 }
 
-func calcAfterPrice(goods []Goods) *big.Float {
+func calcAfterPrice(goods []model.Goods) *big.Float {
 	beforePrice := calcBeforePrice(goods)
-	return ApplyDiscount(beforePrice)
+	return discount.ApplyDiscount(beforePrice)
 }
 
-func ConvertToResponse(partitions [][][]Goods) []PartitionResponse {
+func ConvertToResponse(partitions [][][]model.Goods) []PartitionResponse {
 	beforeTotalPrice := big.NewFloat(0)
 	for _, goodsList := range partitions[0] {
 		beforeTotalPrice = beforeTotalPrice.Add(beforeTotalPrice, calcBeforePrice(goodsList))
@@ -75,7 +77,7 @@ func ConvertToResponse(partitions [][][]Goods) []PartitionResponse {
 	return result
 }
 
-func calcAfterPriceForPartition(groups [][]Goods) *big.Float {
+func calcAfterPriceForPartition(groups [][]model.Goods) *big.Float {
 	total := big.NewFloat(0)
 	for _, group := range groups {
 		groupAfter := calcAfterPrice(group)
