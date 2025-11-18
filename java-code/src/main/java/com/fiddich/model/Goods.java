@@ -3,10 +3,13 @@ package com.fiddich.model;
 import java.math.BigDecimal;
 
 public class Goods {
-    private final String name;
-    private final BigDecimal price;
+    private String name;
+    private String price;
 
-    public Goods(String name, BigDecimal price) {
+    public Goods() {
+    }
+
+    public Goods(String name, String price) {
         this.name = name;
         this.price = price;
     }
@@ -15,7 +18,7 @@ public class Goods {
         return name;
     }
 
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
 }

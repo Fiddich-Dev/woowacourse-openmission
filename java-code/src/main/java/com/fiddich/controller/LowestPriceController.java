@@ -2,7 +2,10 @@ package com.fiddich.controller;
 
 import com.fiddich.model.DiscountInfoResponse;
 import com.fiddich.model.Goods;
+import com.fiddich.model.PartitionResponse;
+import com.fiddich.model.ResponseFormat;
 import com.fiddich.service.DiscountPolicy;
+import com.fiddich.service.Partition;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
 import com.fiddich.view.OutputView;
@@ -31,7 +34,8 @@ public class LowestPriceController {
 
         List<Goods> goodsList = inputGoodsList();
 
-        
+        Partition partition = new Partition();
+        List<PartitionResponse> partitionResponseList = partition.apply(goodsList).getContent();
 
     }
 
@@ -42,3 +46,14 @@ public class LowestPriceController {
                 .toList();
     }
 }
+
+/*
+A 10
+B 20
+C 30
+D 40
+A 10
+B 20
+C 30
+D 40
+*/

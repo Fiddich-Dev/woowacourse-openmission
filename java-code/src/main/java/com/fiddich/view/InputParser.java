@@ -29,7 +29,7 @@ public class InputParser {
             throw new IllegalArgumentException("입력이 올바르지 않습니다.");
         }
         String name = parts[0];
-        BigDecimal price = StringToBigDecimal(parts[1]);
+        String price = parts[1];
 
         return new Goods(name, price);
     }
