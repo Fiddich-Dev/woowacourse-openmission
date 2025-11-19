@@ -6,7 +6,7 @@ import com.fiddich.model.Goods;
 import java.util.List;
 
 public record PartitionResponse(
-        List<Goods> goods,
+        @JsonProperty("goods_list") List<Goods> goodsList,
         @JsonProperty("before_price") String beforePrice,
         @JsonProperty("after_price") String afterPrice) {
 }

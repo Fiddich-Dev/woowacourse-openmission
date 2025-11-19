@@ -29,7 +29,7 @@ public class OutputView {
 
     public void printDiscount(List<PartitionResponse> partitionResponseList) {
         for(PartitionResponse partitionResponse : partitionResponseList) {
-            List<String> goodsNames = partitionResponse.goods().stream()
+            List<String> goodsNames = partitionResponse.goodsList().stream()
                     .map(Goods::getName)
                     .toList();
 

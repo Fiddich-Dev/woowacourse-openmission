@@ -63,7 +63,7 @@ public class LowestPriceController {
         for (PartitionResponse partitionResponse : partitionResponseList) {
             // 작업 부여
             Callable<ResponseFormat<Void>> task = () -> {
-                return PaymentClient.paymentGoods(new PaymentRequest(partitionResponse.goods(), partitionResponse.afterPrice()));
+                return PaymentClient.paymentGoods(new PaymentRequest(partitionResponse.goodsList(), partitionResponse.afterPrice()));
             };
             // 작업 실행
             executorService.submit(task);

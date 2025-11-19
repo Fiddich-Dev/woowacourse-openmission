@@ -1,7 +1,5 @@
 package com.fiddich.model;
 
-import java.math.BigDecimal;
-
 public class Goods {
     private String name;
     private String price;

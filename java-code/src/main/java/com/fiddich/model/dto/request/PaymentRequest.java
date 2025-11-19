@@ -6,8 +6,6 @@ import com.fiddich.model.Goods;
 import java.util.List;
 
 public record PaymentRequest(
-        List<Goods> goods,
+        @JsonProperty("goods_list") List<Goods> goodsList,
         @JsonProperty("payment_amount") String paymentAmount
-) {
-
-}
+) {}

@@ -25,7 +25,7 @@ public class PaymentClient {
 
         HttpResponse<String> response = send(request);
 
-        System.out.println(paymentRequest.goods().stream()
+        System.out.println(paymentRequest.goodsList().stream()
                 .map(Goods::getName)
                 .toList());
         System.out.println();
