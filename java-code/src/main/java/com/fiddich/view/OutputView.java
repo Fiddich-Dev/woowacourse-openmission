@@ -1,7 +1,9 @@
 package com.fiddich.view;
 
 import com.fiddich.model.*;
-import com.fiddich.service.DiscountPolicy;
+import com.fiddich.model.dto.resonse.DiscountInfoResponse;
+import com.fiddich.model.dto.resonse.ExchangeRateResponse;
+import com.fiddich.model.dto.resonse.PartitionResponse;
 
 import java.util.List;
 

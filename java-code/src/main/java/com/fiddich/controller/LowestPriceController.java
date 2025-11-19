@@ -1,15 +1,19 @@
 package com.fiddich.controller;
 
+import com.fiddich.client.PaymentClient;
 import com.fiddich.model.*;
-import com.fiddich.service.DiscountPolicy;
-import com.fiddich.service.ExchangeRate;
-import com.fiddich.service.Partition;
-import com.fiddich.service.Payment;
+import com.fiddich.model.dto.request.PartitionRequest;
+import com.fiddich.model.dto.request.PaymentRequest;
+import com.fiddich.model.dto.resonse.DiscountInfoResponse;
+import com.fiddich.model.dto.resonse.ExchangeRateResponse;
+import com.fiddich.model.dto.resonse.PartitionResponse;
+import com.fiddich.client.DiscountPolicyClient;
+import com.fiddich.client.ExchangeRateClient;
+import com.fiddich.client.PartitionClient;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
 import com.fiddich.view.OutputView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -27,29 +31,41 @@ public class LowestPriceController {
     }
 
     public void run() {
-        DiscountPolicy discountPolicy = new DiscountPolicy();
-        List<DiscountInfoResponse> couponDiscountInfoResponseList = discountPolicy.byCoupon().getContent();
+        // 쿠폰 할인정보 조회
+        List<DiscountInfoResponse> couponDiscountInfoResponseList = DiscountPolicyClient
+                .getByCoupon()
+                .getContent();
         outputView.printCouponDiscountInfo(couponDiscountInfoResponseList);
-        List<DiscountInfoResponse> cardDiscountInfoResponseList = discountPolicy.byCard().getContent();
+
+        // 카드 할인정보 조회
+        List<DiscountInfoResponse> cardDiscountInfoResponseList = DiscountPolicyClient
+                .getByCard()
+                .getContent();
         outputView.printCouponDiscountInfo(cardDiscountInfoResponseList);
 
+        // 상품 입력 받기
         List<Goods> goodsList = inputGoodsList();
 
-        Partition partition = new Partition();
-        List<PartitionResponse> partitionResponseList = partition.apply(goodsList).getContent();
+        // 최적의 그룹화
+        List<PartitionResponse> partitionResponseList = PartitionClient
+                .partitionGoods(new PartitionRequest(goodsList))
+                .getContent();
         outputView.printDiscount(partitionResponseList);
 
-        ExchangeRate exchangeRate = new ExchangeRate();
-        ExchangeRateResponse exchangeRateResponse = exchangeRate.getUSD().getContent();
+        // 환율 조회
+        ExchangeRateResponse exchangeRateResponse = ExchangeRateClient
+                .getUsdExchangeRate()
+                .getContent();
         outputView.printExchangeRate(exchangeRateResponse);
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        Payment payment = new Payment();
+        // 결제
+        ExecutorService executorService = Executors.newFixedThreadPool(10); // 스레드 풀 생성
         for (PartitionResponse partitionResponse : partitionResponseList) {
+            // 작업 부여
             Callable<ResponseFormat<Void>> task = () -> {
-                // 기존 결제 로직 실행
-                return payment.run(new PaymentRequest(partitionResponse.goods(), partitionResponse.afterPrice()));
+                return PaymentClient.paymentGoods(new PaymentRequest(partitionResponse.goods(), partitionResponse.afterPrice()));
             };
+            // 작업 실행
             executorService.submit(task);
         }
 

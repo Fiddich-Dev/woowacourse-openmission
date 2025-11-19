@@ -1,4 +1,4 @@
-package com.fiddich.model;
+package com.fiddich.model.dto.resonse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
