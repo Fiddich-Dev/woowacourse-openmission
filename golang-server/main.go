@@ -14,19 +14,24 @@ import (
 func main() {
 	r := gin.Default()
 
+	// 연결 확인
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"content": "ok",
 		})
 	})
 
-	r.POST("/partition", PartitionService)
-
-	r.GET("/exchange-rate", GetExchangeRate)
-
+	// 할인정보 조회
 	r.GET("/coupon-discount-policy", model.CouponDiscountPolicyService)
 	r.GET("/card-discount-policy", model.CardDiscountPolicyService)
 
+	// 상품들 분할
+	r.POST("/partition", PartitionService)
+
+	// 환율 조회
+	r.GET("/exchange-rate", GetExchangeRate)
+
+	// 결제
 	r.POST("/payment", payment.PaymentService)
 
 	r.Run()

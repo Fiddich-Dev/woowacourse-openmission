@@ -5,22 +5,30 @@ import (
 	"sort"
 )
 
-type CouponDiscountPolicyByDollar struct {
-	Threshold      *big.Float
-	DiscountAmount *big.Float
+type CouponDiscountPolicyInDollar struct {
+	DiscountPolicyInDollar
 }
 
-var CouponDiscountPolicies = []CouponDiscountPolicyByDollar{
-	{Threshold: big.NewFloat(25), DiscountAmount: big.NewFloat(4)},
-	{Threshold: big.NewFloat(54), DiscountAmount: big.NewFloat(8)},
-	{Threshold: big.NewFloat(89), DiscountAmount: big.NewFloat(13)},
-	{Threshold: big.NewFloat(209), DiscountAmount: big.NewFloat(31)},
-	{Threshold: big.NewFloat(679), DiscountAmount: big.NewFloat(102)},
+func newCouponDiscountPolicyInDollar(threshold, discountAmount *big.Float) CouponDiscountPolicyInDollar {
+	return CouponDiscountPolicyInDollar{
+		DiscountPolicyInDollar{
+			threshold,
+			discountAmount,
+		},
+	}
 }
 
-func GetCouponPoliciesByDiscountAsc() []CouponDiscountPolicyByDollar {
-	policies := make([]CouponDiscountPolicyByDollar, len(CouponDiscountPolicies))
-	copy(policies, CouponDiscountPolicies)
+var couponDiscountPolicies = []CouponDiscountPolicyInDollar{
+	newCouponDiscountPolicyInDollar(big.NewFloat(25), big.NewFloat(4)),
+	newCouponDiscountPolicyInDollar(big.NewFloat(54), big.NewFloat(8)),
+	newCouponDiscountPolicyInDollar(big.NewFloat(89), big.NewFloat(13)),
+	newCouponDiscountPolicyInDollar(big.NewFloat(209), big.NewFloat(31)),
+	newCouponDiscountPolicyInDollar(big.NewFloat(679), big.NewFloat(102)),
+}
+
+func GetCouponPoliciesByDiscountAsc() []CouponDiscountPolicyInDollar {
+	policies := make([]CouponDiscountPolicyInDollar, len(couponDiscountPolicies))
+	copy(policies, couponDiscountPolicies)
 
 	sort.Slice(policies, func(i, j int) bool {
 		return policies[i].DiscountAmount.Cmp(policies[j].DiscountAmount) < 0
@@ -29,9 +37,9 @@ func GetCouponPoliciesByDiscountAsc() []CouponDiscountPolicyByDollar {
 	return policies
 }
 
-func GetCouponPoliciesByDiscountDesc() []CouponDiscountPolicyByDollar {
-	policies := make([]CouponDiscountPolicyByDollar, len(CouponDiscountPolicies))
-	copy(policies, CouponDiscountPolicies)
+func GetCouponPoliciesByDiscountDesc() []CouponDiscountPolicyInDollar {
+	policies := make([]CouponDiscountPolicyInDollar, len(couponDiscountPolicies))
+	copy(policies, couponDiscountPolicies)
 
 	sort.Slice(policies, func(i, j int) bool {
 		return policies[i].DiscountAmount.Cmp(policies[j].DiscountAmount) > 0
