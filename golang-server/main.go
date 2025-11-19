@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"golang-server/model"
+	"golang-server/payment"
 	"io"
 	"net/http"
 	"time"
@@ -25,6 +26,8 @@ func main() {
 
 	r.GET("/coupon-discount-policy", model.CouponDiscountPolicyService)
 	r.GET("/card-discount-policy", model.CardDiscountPolicyService)
+
+	r.POST("/payment", payment.PaymentService)
 
 	r.Run()
 }

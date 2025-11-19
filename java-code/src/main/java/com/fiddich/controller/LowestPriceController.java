@@ -4,12 +4,16 @@ import com.fiddich.model.*;
 import com.fiddich.service.DiscountPolicy;
 import com.fiddich.service.ExchangeRate;
 import com.fiddich.service.Partition;
+import com.fiddich.service.Payment;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
 import com.fiddich.view.OutputView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LowestPriceController {
     private final InputView inputView;
@@ -23,10 +27,7 @@ public class LowestPriceController {
     }
 
     public void run() {
-
-
         DiscountPolicy discountPolicy = new DiscountPolicy();
-
         List<DiscountInfoResponse> couponDiscountInfoResponseList = discountPolicy.byCoupon().getContent();
         outputView.printCouponDiscountInfo(couponDiscountInfoResponseList);
         List<DiscountInfoResponse> cardDiscountInfoResponseList = discountPolicy.byCard().getContent();
@@ -41,6 +42,23 @@ public class LowestPriceController {
         ExchangeRate exchangeRate = new ExchangeRate();
         ExchangeRateResponse exchangeRateResponse = exchangeRate.getUSD().getContent();
         outputView.printExchangeRate(exchangeRateResponse);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        Payment payment = new Payment();
+        for (PartitionResponse partitionResponse : partitionResponseList) {
+            Callable<ResponseFormat<Void>> task = () -> {
+                // 기존 결제 로직 실행
+                return payment.run(new PaymentRequest(partitionResponse.goods(), partitionResponse.afterPrice()));
+            };
+            executorService.submit(task);
+        }
+
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            System.out.println("asd");
+        }
     }
 
     private List<Goods> inputGoodsList() {
