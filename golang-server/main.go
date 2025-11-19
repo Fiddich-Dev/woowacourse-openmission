@@ -60,7 +60,16 @@ func GetExchangeRate(c *gin.Context) {
 	var parsed []ExchangeRate
 	json.Unmarshal(body, &parsed)
 
-	c.JSON(200, parsed)
+	var response ExchangeRate
+	for idx, exchageRate := range parsed {
+		if exchageRate.CurUnit == "USD" {
+			response = parsed[idx]
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"content": response,
+	})
 }
 
 type ExchangeRate struct {

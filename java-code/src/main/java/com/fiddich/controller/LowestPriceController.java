@@ -1,10 +1,8 @@
 package com.fiddich.controller;
 
-import com.fiddich.model.DiscountInfoResponse;
-import com.fiddich.model.Goods;
-import com.fiddich.model.PartitionResponse;
-import com.fiddich.model.ResponseFormat;
+import com.fiddich.model.*;
 import com.fiddich.service.DiscountPolicy;
+import com.fiddich.service.ExchangeRate;
 import com.fiddich.service.Partition;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
@@ -25,6 +23,8 @@ public class LowestPriceController {
     }
 
     public void run() {
+
+
         DiscountPolicy discountPolicy = new DiscountPolicy();
 
         List<DiscountInfoResponse> couponDiscountInfoResponseList = discountPolicy.byCoupon().getContent();
@@ -36,7 +36,11 @@ public class LowestPriceController {
 
         Partition partition = new Partition();
         List<PartitionResponse> partitionResponseList = partition.apply(goodsList).getContent();
+        outputView.printDiscount(partitionResponseList);
 
+        ExchangeRate exchangeRate = new ExchangeRate();
+        ExchangeRateResponse exchangeRateResponse = exchangeRate.getUSD().getContent();
+        outputView.printExchangeRate(exchangeRateResponse);
     }
 
     private List<Goods> inputGoodsList() {

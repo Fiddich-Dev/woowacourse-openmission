@@ -3,7 +3,9 @@ package com.fiddich.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fiddich.model.*;
+import com.fiddich.model.DiscountInfoResponse;
+import com.fiddich.model.ExchangeRateResponse;
+import com.fiddich.model.ResponseFormat;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,31 +14,22 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public class Partition {
+public class ExchangeRate {
 
     private final HttpClient client = HttpClient.newHttpClient();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public ResponseFormat<List<PartitionResponse>> apply(List<Goods> goodsList) {
-        PartitionRequest req = new PartitionRequest(goodsList);
-
-        String jsonBody;
-        try {
-            jsonBody = mapper.writeValueAsString(req);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
+    public ResponseFormat<ExchangeRateResponse> getUSD() {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/partition"))
-                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .uri(URI.create("http://localhost:8080/exchange-rate"))
+                .GET()
                 .build();
 
         HttpResponse<String> response = sendRequest(request);
 
         return parseJson(
                 response.body(),
-                new TypeReference<ResponseFormat<List<PartitionResponse>>>() {}
+                new TypeReference<ResponseFormat<ExchangeRateResponse>>() {}
         );
     }
 

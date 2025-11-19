@@ -30,4 +30,6 @@ public class InputView {
         System.out.println();
         return result;
     }
+
+
 }
