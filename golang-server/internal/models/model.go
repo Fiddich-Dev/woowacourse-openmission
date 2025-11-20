@@ -1,9 +1,14 @@
-package model
+package models
 
 import (
 	"encoding/json"
 	"math/big"
 )
+
+type DiscountPolicyInDollar struct {
+	Threshold      *big.Float
+	DiscountAmount *big.Float
+}
 
 type Goods struct {
 	Name  string     `json:"name"`
