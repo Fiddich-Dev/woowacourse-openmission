@@ -28,6 +28,7 @@ func SetupRouter() *gin.Engine {
 	payment := router.Group("/payment")
 	{
 		payment.POST("", handlers.Payment)
+		payment.POST("all", handlers.PaymentAll)
 	}
 
 	return router

@@ -22,7 +22,6 @@ type ExchangeRateRaw struct {
 }
 
 func GetExchangeRate(date string) ([]ExchangeRateRaw, error) {
-
 	client := &http.Client{Timeout: 3 * time.Second}
 
 	baseURL := "https://oapi.koreaexim.go.kr/site/program/financial/exchangeJSON"
@@ -33,19 +32,11 @@ func GetExchangeRate(date string) ([]ExchangeRateRaw, error) {
 		return nil, err
 	}
 
-	//now := time.Now()
-	//targetDate := now
-	//if now.Hour() < 11 {
-	//	targetDate = now.AddDate(0, 0, -1)
-	//}
-
 	q := req.URL.Query()
 	q.Add("authkey", openApiKey)
 	q.Add("searchdate", date)
-	//q.Add("searchdate", "20251119")
 	q.Add("data", "AP01")
 	req.URL.RawQuery = q.Encode()
-
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := client.Do(req)
