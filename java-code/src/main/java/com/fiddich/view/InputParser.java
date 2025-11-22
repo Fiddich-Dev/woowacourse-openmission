@@ -1,10 +1,7 @@
 package com.fiddich.view;
 
-import com.fiddich.Config;
+import com.fiddich.config.Config;
 import com.fiddich.model.Goods;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
 
 public class InputParser {
 

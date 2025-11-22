@@ -1,6 +1,6 @@
 package com.fiddich.controller;
 
-import com.fiddich.Console;
+import com.fiddich.util.Console;
 import com.fiddich.client.*;
 import com.fiddich.model.*;
 import com.fiddich.model.dto.request.PartitionRequest;
@@ -14,12 +14,14 @@ import com.fiddich.view.OutputView;
 
 import java.util.List;
 
-public class LowestPriceController {
+public class PurchaseController {
+    private static final String PROGRAM_END_MESSAGE = "프로그램 종료";
+
     private final InputView inputView;
     private final InputParser inputParser;
     private final OutputView outputView;
 
-    public LowestPriceController(InputView inputView, InputParser inputParser, OutputView outputView) {
+    public PurchaseController(InputView inputView, InputParser inputParser, OutputView outputView) {
         this.inputView = inputView;
         this.inputParser = inputParser;
         this.outputView = outputView;
@@ -56,7 +58,7 @@ public class LowestPriceController {
             }
         } finally {
             Console.close();
-            System.out.println("프로그램 종료");
+            System.out.println(PROGRAM_END_MESSAGE);
         }
     }
 

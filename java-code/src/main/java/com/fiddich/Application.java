@@ -1,6 +1,6 @@
 package com.fiddich;
 
-import com.fiddich.controller.LowestPriceController;
+import com.fiddich.controller.PurchaseController;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
 import com.fiddich.view.OutputView;
@@ -10,8 +10,8 @@ public class Application {
         InputView inputView = new InputView();
         InputParser inputParser = new InputParser();
         OutputView outputView = new OutputView();
-        LowestPriceController lowestPriceController = new LowestPriceController(inputView, inputParser, outputView);
+        PurchaseController purchaseController = new PurchaseController(inputView, inputParser, outputView);
 
-        lowestPriceController.run();
+        purchaseController.run();
     }
 }

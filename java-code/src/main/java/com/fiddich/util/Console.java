@@ -1,4 +1,4 @@
-package com.fiddich;
+package com.fiddich.util;
 
 import java.util.Scanner;
 

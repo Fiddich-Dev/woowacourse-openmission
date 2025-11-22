@@ -1,7 +1,7 @@
 package com.fiddich.view;
 
-import com.fiddich.Config;
-import com.fiddich.Console;
+import com.fiddich.config.Config;
+import com.fiddich.util.Console;
 
 import java.util.ArrayList;
 import java.util.List;
