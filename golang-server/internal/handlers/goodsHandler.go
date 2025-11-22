@@ -23,9 +23,7 @@ func GoodsListPartition(c *gin.Context) {
 
 	response := convertPartitionedGoodsToResponse(partitionedGoods)
 
-	c.JSON(http.StatusOK, gin.H{
-		"content": response,
-	})
+	c.JSON(http.StatusOK, dto.Success(response))
 }
 
 func convertPartitionedGoodsToResponse(partitions [][][]models.Goods) []dto.GoodsListPartitionResponse {

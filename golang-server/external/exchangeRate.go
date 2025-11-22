@@ -52,5 +52,8 @@ func GetExchangeRate(date string) ([]ExchangeRateRaw, error) {
 		return nil, err
 	}
 
+	println(openApiKey)
+	println(date)
+	
 	return parsed, nil
 }

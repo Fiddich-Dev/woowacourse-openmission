@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"golang-server/external"
+	"golang-server/internal/dto"
 	"golang-server/internal/services"
 	"net/http"
 
@@ -21,7 +22,7 @@ func GetUsdRateHandler(c *gin.Context) {
 
 	rates, err := external.GetExchangeRate(date)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, "환율을 가져오지 못했습니다."))
 		return
 	}
 
@@ -40,7 +41,5 @@ func GetUsdRateHandler(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"content": response,
-	})
+	c.JSON(http.StatusOK, dto.Success(response))
 }

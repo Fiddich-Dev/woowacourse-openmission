@@ -19,9 +19,7 @@ func Payment(c *gin.Context) {
 
 	services.Payment(request)
 
-	c.JSON(http.StatusOK, gin.H{
-		"content": request.GoodsList,
-	})
+	c.JSON(http.StatusOK, dto.Success(nil))
 }
 
 func PaymentAll(c *gin.Context) {

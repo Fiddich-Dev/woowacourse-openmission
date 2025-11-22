@@ -20,9 +20,7 @@ func GetCouponDiscountPolicy(c *gin.Context) {
 		})
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"content": response,
-	})
+	c.JSON(http.StatusOK, dto.Success(response))
 }
 
 func GetCardDiscountPolicy(c *gin.Context) {
@@ -35,7 +33,6 @@ func GetCardDiscountPolicy(c *gin.Context) {
 			utils.BigFloatToString(policy.DiscountAmount),
 		})
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"content": response,
-	})
+
+	c.JSON(http.StatusOK, dto.Success(response))
 }
