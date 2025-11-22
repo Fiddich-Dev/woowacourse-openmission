@@ -34,8 +34,8 @@ public class OutputView {
                     .toList();
 
             System.out.println(String.join(", ", goodsNames) + " : " + partitionResponse.beforePrice() + " -> " + partitionResponse.afterPrice());
-
         }
+        System.out.println();
     }
 
     public void printExchangeRate(ExchangeRateResponse exchangeRateResponse) {

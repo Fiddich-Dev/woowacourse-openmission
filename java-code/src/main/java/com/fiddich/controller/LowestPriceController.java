@@ -10,6 +10,7 @@ import com.fiddich.model.dto.resonse.PartitionResponse;
 import com.fiddich.client.DiscountPolicyClient;
 import com.fiddich.client.ExchangeRateClient;
 import com.fiddich.client.PartitionClient;
+import com.fiddich.util.ResponseHandler;
 import com.fiddich.view.InputParser;
 import com.fiddich.view.InputView;
 import com.fiddich.view.OutputView;
@@ -32,30 +33,26 @@ public class LowestPriceController {
 
     public void run() {
         // 쿠폰 할인정보 조회
-        List<DiscountInfoResponse> couponDiscountInfoResponseList = DiscountPolicyClient
-                .getByCoupon()
-                .getContent();
+        List<DiscountInfoResponse> couponDiscountInfoResponseList = ResponseHandler
+                .handle(DiscountPolicyClient.getByCoupon());
         outputView.printCouponDiscountInfo(couponDiscountInfoResponseList);
 
         // 카드 할인정보 조회
-        List<DiscountInfoResponse> cardDiscountInfoResponseList = DiscountPolicyClient
-                .getByCard()
-                .getContent();
+        List<DiscountInfoResponse> cardDiscountInfoResponseList = ResponseHandler
+                .handle(DiscountPolicyClient.getByCard());
         outputView.printCouponDiscountInfo(cardDiscountInfoResponseList);
 
         // 상품 입력 받기
         List<Goods> goodsList = inputGoodsList();
 
         // 최적의 그룹화
-        List<PartitionResponse> partitionResponseList = PartitionClient
-                .partitionGoods(new PartitionRequest(goodsList))
-                .getContent();
+        List<PartitionResponse> partitionResponseList = ResponseHandler
+                .handle(PartitionClient.partitionGoods(new PartitionRequest(goodsList)));
         outputView.printDiscount(partitionResponseList);
 
         // 환율 조회
-        ExchangeRateResponse exchangeRateResponse = ExchangeRateClient
-                .getUsdExchangeRate()
-                .getContent();
+        ExchangeRateResponse exchangeRateResponse = ResponseHandler
+                .handle(ExchangeRateClient.getUsdExchangeRate());
         outputView.printExchangeRate(exchangeRateResponse);
 
         // 결제
@@ -75,6 +72,22 @@ public class LowestPriceController {
         } catch (InterruptedException e) {
             System.out.println("asd");
         }
+    }
+
+    private void temp() {
+        ResponseFormat<List<DiscountInfoResponse>> response = DiscountPolicyClient
+                .getByCoupon();
+
+        if(response.getStatus() >= 400 && response.getStatus() <= 499) {
+            throw new IllegalArgumentException(response.getMessage());
+        }
+        if(response.getStatus() >= 500 && response.getStatus() <= 599) {
+            throw new IllegalStateException(response.getMessage());
+        }
+
+        List<DiscountInfoResponse> couponDiscountInfoResponseList = response.getContent();
+
+        outputView.printCouponDiscountInfo(couponDiscountInfoResponseList);
     }
 
     private List<Goods> inputGoodsList() {

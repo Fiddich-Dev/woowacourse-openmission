@@ -1,7 +1,7 @@
 package com.fiddich.client;
 
 public class ApiPaths {
-    public static final String BASE_URL = "http://localhost:8080";
+    public static final String BASE_URL = "http://insung-server.serveirc.com:8000";
 
     public static final String COUPON_DISCOUNT_POLICY = "/discount-policy/coupon";
     public static final String CARD_DISCOUNT_POLICY = "/discount-policy/card";
