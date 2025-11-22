@@ -20,7 +20,6 @@ func GoodsListPartition(c *gin.Context) {
 	}
 
 	partitionedGoods := services.Partition(request.GoodsList)
-
 	response := convertPartitionedGoodsToResponse(partitionedGoods)
 
 	c.JSON(http.StatusOK, dto.Success(response))
@@ -32,24 +31,30 @@ func convertPartitionedGoodsToResponse(partitions [][][]models.Goods) []dto.Good
 		beforeTotalPrice = beforeTotalPrice.Add(beforeTotalPrice, calcBeforePrice(goodsList))
 	}
 
+	bestPartition := findBestPartition(partitions)
+
+	var result []dto.GoodsListPartitionResponse
+	for _, goods := range bestPartition {
+		beforePrice := calcBeforePrice(goods)
+		afterPrice := calcAfterPrice(goods)
+
+		result = append(result, dto.GoodsListPartitionResponse{
+			goods,
+			beforePrice.String(),
+			afterPrice.String()})
+	}
+
+	return result
+}
+
+func findBestPartition(partitions [][][]models.Goods) [][]models.Goods {
 	sort.Slice(partitions, func(i, j int) bool {
 		totalI := calcAfterPriceForPartition(partitions[i])
 		totalJ := calcAfterPriceForPartition(partitions[j])
 		return totalI.Cmp(totalJ) < 0
 	})
 
-	bestPartition := partitions[0]
-
-	var result []dto.GoodsListPartitionResponse
-
-	for _, goods := range bestPartition {
-		beforePrice := calcBeforePrice(goods)
-		afterPrice := calcAfterPrice(goods)
-
-		result = append(result, dto.GoodsListPartitionResponse{goods, beforePrice.String(), afterPrice.String()})
-	}
-
-	return result
+	return partitions[0]
 }
 
 func calcAfterPriceForPartition(groups [][]models.Goods) *big.Float {

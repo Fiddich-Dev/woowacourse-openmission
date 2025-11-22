@@ -17,26 +17,26 @@ type ExchangeRate struct {
 }
 
 func GetUsdRateHandler(c *gin.Context) {
-	rates, error := services.GetExchangeRate()
-	if error != nil {
+	rates, err := services.GetExchangeRate()
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, "환율을 가져오지 못했습니다."))
 		return
 	}
 
-	// USD만 추출
-	var response ExchangeRate
+	var response *ExchangeRate
 	for _, r := range rates {
 		if r.CurUnit == "USD" {
-			response = ExchangeRate{
+			response = &ExchangeRate{
 				r.Result,
 				r.CurUnit,
 				r.Ttb,
 				r.Tts,
-				r.CurName,
-			}
-			break
+				r.CurName}
+
+			c.JSON(http.StatusOK, dto.Success(response))
+			return
 		}
 	}
 
-	c.JSON(http.StatusOK, dto.Success(response))
+	c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, "환율을 가져오지 못했습니다."))
 }

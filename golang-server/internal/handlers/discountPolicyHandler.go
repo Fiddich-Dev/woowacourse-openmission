@@ -16,8 +16,7 @@ func GetCouponDiscountPolicy(c *gin.Context) {
 	for _, policy := range couponDiscountPolicies {
 		response = append(response, dto.DiscountPolicyByResponse{
 			utils.BigFloatToString(policy.Threshold),
-			utils.BigFloatToString(policy.DiscountAmount),
-		})
+			utils.BigFloatToString(policy.DiscountAmount)})
 	}
 
 	c.JSON(http.StatusOK, dto.Success(response))
@@ -30,8 +29,7 @@ func GetCardDiscountPolicy(c *gin.Context) {
 	for _, policy := range cardDiscountPolicies {
 		response = append(response, dto.DiscountPolicyByResponse{
 			utils.BigFloatToString(policy.Threshold),
-			utils.BigFloatToString(policy.DiscountAmount),
-		})
+			utils.BigFloatToString(policy.DiscountAmount)})
 	}
 
 	c.JSON(http.StatusOK, dto.Success(response))

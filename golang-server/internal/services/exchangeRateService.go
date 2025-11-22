@@ -5,32 +5,17 @@ import (
 	"time"
 )
 
-func GetExchangeRateDate() string {
-	now := time.Now()
-	targetDate := now
-	if now.Hour() < 11 {
-		targetDate = now.AddDate(0, 0, -1)
-	}
-	return targetDate.Format("20060102")
-}
-
 func GetExchangeRate() ([]external.ExchangeRateRaw, error) {
-	now := time.Now()
-	targetDate := now
+	targetDate := time.Now()
 
-	rates, error := external.GetExchangeRate(targetDate.Format("20060102"))
-	if error != nil {
-		return nil, error
-	}
-
-	for len(rates) == 0 {
-		targetDate = targetDate.AddDate(0, 0, -1)
-
-		rates, error = external.GetExchangeRate(targetDate.Format("20060102"))
-		if error != nil {
-			return nil, error
+	for {
+		rates, err := external.GetExchangeRate(targetDate.Format("20060102"))
+		if err != nil {
+			return nil, err
 		}
+		if len(rates) > 0 {
+			return rates, nil
+		}
+		targetDate = targetDate.AddDate(0, 0, -1)
 	}
-
-	return rates, nil
 }
