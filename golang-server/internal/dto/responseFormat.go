@@ -2,6 +2,10 @@ package dto
 
 import "net/http"
 
+const (
+	messageOK = "OK"
+)
+
 type ResponseFormat struct {
 	Status  int         `json:"status"`
 	Message string      `json:"message"`
@@ -11,7 +15,7 @@ type ResponseFormat struct {
 func Success(content interface{}) ResponseFormat {
 	return ResponseFormat{
 		http.StatusOK,
-		"OK",
+		messageOK,
 		content,
 	}
 }

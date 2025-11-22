@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"golang-server/internal/config"
 	"golang-server/internal/dto"
 	"golang-server/internal/models"
 	"golang-server/internal/services"
@@ -16,7 +17,7 @@ func GoodsListPartition(c *gin.Context) {
 	var request dto.GoodsListPartitionRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, dto.Fail(http.StatusBadRequest, config.RequestErrorMessage))
 		return
 	}
 

@@ -21,11 +21,20 @@ type ExchangeRateRaw struct {
 	KftcBkpr     string `json:"KFTC_BKPR"`       // 서울외국환중개 장부가격
 }
 
+const (
+	exchangeRateBaseURL    = "https://oapi.koreaexim.go.kr/site/program/financial/exchangeJSON"
+	exchangeRateOpenApiKey = "fmg4TI2nZeveC6j7e5bh35v6EtpSCveZ"
+	authKeyParam           = "authkey"
+	searchDateParam        = "searchdate"
+	dataParam              = "data"
+	exchangeRateValue      = "AP01"
+)
+
 func GetExchangeRate(date string) ([]ExchangeRateRaw, error) {
 	client := &http.Client{Timeout: 3 * time.Second}
 
-	baseURL := "https://oapi.koreaexim.go.kr/site/program/financial/exchangeJSON"
-	openApiKey := "fmg4TI2nZeveC6j7e5bh35v6EtpSCveZ"
+	baseURL := exchangeRateBaseURL
+	openApiKey := exchangeRateOpenApiKey
 
 	req, err := http.NewRequest("GET", baseURL, nil)
 	if err != nil {
@@ -33,11 +42,10 @@ func GetExchangeRate(date string) ([]ExchangeRateRaw, error) {
 	}
 
 	q := req.URL.Query()
-	q.Add("authkey", openApiKey)
-	q.Add("searchdate", date)
-	q.Add("data", "AP01")
+	q.Add(authKeyParam, openApiKey)
+	q.Add(searchDateParam, date)
+	q.Add(dataParam, exchangeRateValue)
 	req.URL.RawQuery = q.Encode()
-	req.Header.Set("Accept", "application/json")
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -52,8 +60,5 @@ func GetExchangeRate(date string) ([]ExchangeRateRaw, error) {
 		return nil, err
 	}
 
-	println(openApiKey)
-	println(date)
-	
 	return parsed, nil
 }

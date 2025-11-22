@@ -9,6 +9,10 @@ import (
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
+	router.GET("/ping", func(c *gin.Context) {
+		c.String(200, "OK")
+	})
+
 	goods := router.Group("/goods")
 	{
 		goods.POST("/partition", handlers.GoodsListPartition)
@@ -30,6 +34,6 @@ func SetupRouter() *gin.Engine {
 		payment.POST("", handlers.Payment)
 		payment.POST("all", handlers.PaymentAll)
 	}
-
+	
 	return router
 }

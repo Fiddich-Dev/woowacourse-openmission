@@ -16,10 +16,15 @@ type ExchangeRate struct {
 	CurNm   string `json:"cur_nm"`   // "미국 달러"
 }
 
+const (
+	exchangeRateErrorMessage = "환율을 가져오지 못했습니다."
+	usdErrorMessage          = "달러 환율을 가져오지 못했습니다."
+)
+
 func GetUsdRateHandler(c *gin.Context) {
 	rates, err := services.GetExchangeRate()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, "환율을 가져오지 못했습니다."))
+		c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, exchangeRateErrorMessage))
 		return
 	}
 
@@ -38,5 +43,5 @@ func GetUsdRateHandler(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, "환율을 가져오지 못했습니다."))
+	c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, usdErrorMessage))
 }

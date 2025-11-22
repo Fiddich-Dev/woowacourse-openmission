@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"golang-server/internal/config"
 	"golang-server/internal/dto"
 	"golang-server/internal/services"
 	"net/http"
@@ -13,7 +14,7 @@ func Payment(c *gin.Context) {
 	var request dto.PaymentRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, dto.Fail(http.StatusBadRequest, config.RequestErrorMessage))
 		return
 	}
 
@@ -26,7 +27,7 @@ func PaymentAll(c *gin.Context) {
 	var request []dto.PaymentRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, dto.Fail(http.StatusBadRequest, config.RequestErrorMessage))
 		return
 	}
 
@@ -41,7 +42,5 @@ func PaymentAll(c *gin.Context) {
 	}
 	wg.Wait()
 
-	c.JSON(http.StatusOK, gin.H{
-		"content": "결제 완료",
-	})
+	c.JSON(http.StatusOK, dto.Success(nil))
 }
