@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"golang-server/external"
 	"golang-server/internal/dto"
 	"golang-server/internal/services"
 	"net/http"
@@ -18,10 +17,8 @@ type ExchangeRate struct {
 }
 
 func GetUsdRateHandler(c *gin.Context) {
-	date := services.GetExchangeRateDate()
-
-	rates, err := external.GetExchangeRate(date)
-	if err != nil {
+	rates, error := services.GetExchangeRate()
+	if error != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail(http.StatusBadGateway, "환율을 가져오지 못했습니다."))
 		return
 	}

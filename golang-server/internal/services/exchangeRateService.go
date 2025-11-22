@@ -1,16 +1,9 @@
 package services
 
 import (
+	"golang-server/external"
 	"time"
 )
-
-type ExchangeRate struct {
-	Result  int    `json:"result"`   // 1 : 성공, 2 : DATA코드 오류, 3 : 인증코드 오류, 4 : 일일제한횟수 마감
-	CurUnit string `json:"cur_unit"` // "USD"
-	Ttb     string `json:"ttb"`      // 팔떄 가격
-	Tts     string `json:"tts"`      // 살떄 가격
-	CurNm   string `json:"cur_nm"`   // "미국 달러"
-}
 
 func GetExchangeRateDate() string {
 	now := time.Now()
@@ -19,4 +12,25 @@ func GetExchangeRateDate() string {
 		targetDate = now.AddDate(0, 0, -1)
 	}
 	return targetDate.Format("20060102")
+}
+
+func GetExchangeRate() ([]external.ExchangeRateRaw, error) {
+	now := time.Now()
+	targetDate := now
+
+	rates, error := external.GetExchangeRate(targetDate.Format("20060102"))
+	if error != nil {
+		return nil, error
+	}
+
+	for len(rates) == 0 {
+		targetDate = targetDate.AddDate(0, 0, -1)
+
+		rates, error = external.GetExchangeRate(targetDate.Format("20060102"))
+		if error != nil {
+			return nil, error
+		}
+	}
+
+	return rates, nil
 }
