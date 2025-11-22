@@ -25,11 +25,6 @@ public class PaymentClient {
 
         HttpResponse<String> response = send(request);
 
-        System.out.println(paymentRequest.goodsList().stream()
-                .map(Goods::getName)
-                .toList());
-        System.out.println();
-
         return deserialize(
                 response.body(),
                 new TypeReference<ResponseFormat<Void>>() {}

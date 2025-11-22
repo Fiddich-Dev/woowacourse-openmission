@@ -1,5 +1,6 @@
 package com.fiddich.view;
 
+import com.fiddich.Config;
 import com.fiddich.Console;
 
 import java.util.ArrayList;
@@ -7,22 +8,19 @@ import java.util.List;
 
 public class InputView {
 
-    public String requestAmount() {
-        System.out.println("현재 잔액을 입력하세요.(원화)");
-        String input = Console.readLine();
-        System.out.println();
-        return input;
-    }
+    private static final String REQUEST_GOODS_COUNT_MESSAGE = "구매하고 싶은 상품의 개수를 입력해주세요.";
+    private static final String REQUEST_GOODS_MESSAGE = "구매하고 싶은 상품의 이름과 가격(달러)을 입력해주세요.";
+    private static final String REQUEST_CONFIRM_MESSAGE = "결제 하시러면 %s를 입력해주세요%n";
 
     public String requestGoodsCount() {
-        System.out.println("구매하고 싶은 상품의 개수를 입력해주세요.");
+        System.out.println(REQUEST_GOODS_COUNT_MESSAGE);
         String input = Console.readLine();
         System.out.println();
         return input;
     }
 
     public List<String> requestGoods(long count) {
-        System.out.println("구매하고 싶은 상품의 이름과 가격(달러)을 소수점 둘째자리까지 입력해주세요.");
+        System.out.println(REQUEST_GOODS_MESSAGE);
         List<String> result = new ArrayList<>();
         for(long i = 0; i < count; i++) {
             result.add(Console.readLine());
@@ -31,5 +29,10 @@ public class InputView {
         return result;
     }
 
-
+    public String requestConfirmPayment() {
+        System.out.printf(REQUEST_CONFIRM_MESSAGE, Config.PAYMENT_CONFIRM_MESSAGE);
+        String input = Console.readLine();
+        System.out.println();
+        return input;
+    }
 }

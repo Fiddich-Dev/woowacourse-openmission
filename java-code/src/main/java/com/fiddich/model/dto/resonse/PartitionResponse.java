@@ -8,5 +8,4 @@ import java.util.List;
 public record PartitionResponse(
         @JsonProperty("goods_list") List<Goods> goodsList,
         @JsonProperty("before_price") String beforePrice,
-        @JsonProperty("after_price") String afterPrice) {
-}
+        @JsonProperty("after_price") String afterPrice) {}

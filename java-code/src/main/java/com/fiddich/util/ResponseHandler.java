@@ -16,4 +16,16 @@ public class ResponseHandler {
 
         return response.getContent();
     }
+
+    public static <T> ResponseFormat<Void> voidHandle(ResponseFormat<T> response) {
+        int status = response.getStatus();
+
+        if (status >= 400 && status <= 499) {
+            throw new IllegalArgumentException(response.getMessage());
+        }
+        if (status >= 500 && status <= 599) {
+            throw new IllegalStateException(response.getMessage());
+        }
+        return null;
+    }
 }
