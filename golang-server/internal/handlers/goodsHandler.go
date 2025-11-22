@@ -4,6 +4,7 @@ import (
 	"golang-server/internal/dto"
 	"golang-server/internal/models"
 	"golang-server/internal/services"
+	"golang-server/utils"
 	"math/big"
 	"net/http"
 	"sort"
@@ -40,8 +41,8 @@ func convertPartitionedGoodsToResponse(partitions [][][]models.Goods) []dto.Good
 
 		result = append(result, dto.GoodsListPartitionResponse{
 			goods,
-			beforePrice.String(),
-			afterPrice.String()})
+			utils.RoundTo2Decimal(beforePrice).String(),
+			utils.RoundTo2Decimal(afterPrice).String()})
 	}
 
 	return result
