@@ -34,6 +34,6 @@ func SetupRouter() *gin.Engine {
 		payment.POST("", handlers.Payment)
 		payment.POST("all", handlers.PaymentAll)
 	}
-	
+
 	return router
 }
