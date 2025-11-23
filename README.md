@@ -1,10 +1,30 @@
 # woowacourse-openmission
 
+## 참고 자료
+- MSA에 대해 관심을 갖게됨
+  - https://www.youtube.com/watch?v=BnS6343GTkY&t=1900s
+- MSA와 kafka에 대해 찾아봄
+  - https://www.youtube.com/playlist?list=PLtUgHNmvcs6p3304vUg6ywvUIAIe5K4WP
+  - https://www.youtube.com/playlist?list=PLtUgHNmvcs6qOCmm-RRK-c5CEMjW_PGlK
+- MSA에서 Go를 도입계기를 알게됨
+  - https://www.youtube.com/watch?v=mLIthm96u2Q
+- Go의 프로그래밍 가이드 번역된 공식문서 읽기 도전
+  - https://gosudaweb.gitbooks.io/effective-go-in-korean/content/
+- Go 문법에 대해 학습
+  - https://www.youtube.com/watch?v=8uiZC0l4Ajw&t=1s
+- Go 문법 공식문서와 Gin 공식문서 읽기 도전
+  - https://go.dev/ref/spec
+  - https://gin-gonic.com/en/docs/
+- Gin 프로젝트 구조에 대해 공부
+  - https://velog.io/@fudoge/Gin-Gin-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0-%EC%84%A4%EC%A0%95
+
 ## 미션 내용
 - 달러 기준 쿠폰과 결제할인을 고려한 최저가 찾아주기
 - 결제는 비동기 처리로 진행
 - 배포하기
 
+## 내용 선택 계기
+- 금액별 할인율이 일정하지 않아 결제전 최저가를 계산하는데 너무 오래걸림
 
 ### 입력
 - 구매할 상품의 개수 입력
